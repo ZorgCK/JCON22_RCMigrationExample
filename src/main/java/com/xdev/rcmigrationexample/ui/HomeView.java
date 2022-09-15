@@ -1,6 +1,7 @@
 
 package com.xdev.rcmigrationexample.ui;
 
+import java.util.Comparator;
 import java.util.Optional;
 
 import com.rapidclipse.framework.server.data.format.NumberFormatBuilder;
@@ -41,34 +42,32 @@ public class HomeView extends VerticalLayout implements HasTitle
 	private void initUI()
 	{
 		this.filterComponent = new FilterComponent();
-		this.grid            = new Grid<>(Product.class, false);
-
+		this.grid = new Grid<>(Product.class, false);
+		
 		this.grid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
-		this.grid.addColumn(Product::getProductid).setKey("productid")
-			.setHeader(CaptionUtils.resolveCaption(Product.class, "productid")).setSortable(true);
-		this.grid.addColumn(Product::getProductname).setKey("productname")
-			.setHeader(CaptionUtils.resolveCaption(Product.class, "productname")).setSortable(true);
-		this.grid
-			.addColumn(
-				v -> Optional.ofNullable(v).map(Product::getCategory).map(Category::getCategoryname).orElse(null))
-			.setKey("category.categoryname")
-			.setHeader(CaptionUtils.resolveCaption(Product.class, "category.categoryname"))
-			.setSortable(true);
-		this.grid.addColumn(new NumberRenderer<>(Product::getUnitprice, NumberFormatBuilder.Currency().build(), ""))
-			.setKey("unitprice").setHeader(CaptionUtils.resolveCaption(Product.class, "unitprice")).setSortable(true)
-			.setAutoWidth(true).setFlexGrow(0).setTextAlign(ColumnTextAlign.END);
-		this.grid.addColumn(new NumberRenderer<>(Product::getUnitsinstock, NumberFormatBuilder.Integer().build(), ""))
-			.setKey("unitsinstock").setHeader(CaptionUtils.resolveCaption(Product.class, "unitsinstock"))
-			.setSortable(true)
-			.setAutoWidth(true).setFlexGrow(0).setTextAlign(ColumnTextAlign.END);
-		this.grid.addColumn(Product::isDiscontinued).setKey("discontinued")
-			.setHeader(CaptionUtils.resolveCaption(Product.class, "discontinued")).setSortable(true).setAutoWidth(true)
-			.setFlexGrow(0);
-		this.grid.addColumn(RenderedComponent.Renderer(GenColProduct::new)).setKey("renderer").setHeader("...")
-			.setSortable(false).setAutoWidth(true).setFlexGrow(0).setTextAlign(ColumnTextAlign.CENTER);
+		this.grid.addColumn(Product::getProductid).setKey("productid").setHeader(
+			CaptionUtils.resolveCaption(Product.class, "productid")).setSortable(true);
+		this.grid.addColumn(Product::getProductname).setKey("productname").setHeader(
+			CaptionUtils.resolveCaption(Product.class, "productname")).setSortable(true);
+		this.grid.addColumn(
+			v -> Optional.ofNullable(v).map(Product::getCategory).map(Category::getCategoryname).orElse(null)).setKey(
+				"category.categoryname").setHeader(
+					CaptionUtils.resolveCaption(Product.class, "category.categoryname")).setSortable(true);
+		this.grid.addColumn(new NumberRenderer<>(Product::getUnitprice, NumberFormatBuilder.Currency().build(), "")).setKey(
+			"unitprice").setHeader(CaptionUtils.resolveCaption(Product.class, "unitprice")).setSortable(true).setAutoWidth(
+				true).setFlexGrow(0).setTextAlign(ColumnTextAlign.END);
+		this.grid.addColumn(
+			new NumberRenderer<>(Product::getUnitsinstock, NumberFormatBuilder.Integer().build(), "")).setKey(
+				"unitsinstock").setHeader(CaptionUtils.resolveCaption(Product.class, "unitsinstock")).setSortable(
+					true).setAutoWidth(true).setFlexGrow(0).setTextAlign(ColumnTextAlign.END);
+		this.grid.addColumn(Product::isDiscontinued).setKey("discontinued").setHeader(
+			CaptionUtils.resolveCaption(Product.class, "discontinued")).setSortable(true).setComparator(
+				Comparator.comparing(Product::isDiscontinued)).setAutoWidth(true).setFlexGrow(0);
+		this.grid.addColumn(RenderedComponent.Renderer(GenColProduct::new)).setKey("renderer").setHeader("...").setSortable(
+			false).setAutoWidth(true).setFlexGrow(0).setTextAlign(ColumnTextAlign.CENTER);
 		this.grid.setDataProvider(DataProvider.ofCollection(ProductDAO.INSTANCE.findAll()));
 		this.grid.setSelectionMode(Grid.SelectionMode.SINGLE);
-
+		
 		this.filterComponent.setWidthFull();
 		this.filterComponent.setHeight(null);
 		this.grid.setSizeFull();

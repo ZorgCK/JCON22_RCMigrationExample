@@ -5,6 +5,7 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasElement;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -13,7 +14,8 @@ import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 import com.xdev.rcmigrationexample.HasTitle;
 
-@Theme(themeFolder = "basic", variant = Lumo.DARK)
+@Theme(themeFolder = "Default", variant = Lumo.DARK)
+@CssImport("./themes/Default/sidebar.css")
 public class MainLayout extends AppLayout
 {
 	private final H2 title = new H2();
