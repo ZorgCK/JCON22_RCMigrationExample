@@ -4,3 +4,9 @@
 .settings/
 log/
 target/
+/.apt_generated_tests/
+/.apt_generated/
+node_modules/
+frontend/generated/
+pnpmfile.js
+webpack.generated.js
