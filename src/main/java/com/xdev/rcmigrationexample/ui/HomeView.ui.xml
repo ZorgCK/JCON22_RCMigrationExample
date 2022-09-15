@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<?xdevuiml version="1.0"?>
+<?template NONE?>
+<?import com.rapidclipse.framework.server.ui.filter.FilterComponent?>
+<?import com.vaadin.flow.component.grid.Grid?>
+<?import com.vaadin.flow.component.orderedlayout.VerticalLayout?>
+<?import com.xdev.rcmigrationexample.domain.Product?>
+<?import com.xdev.rcmigrationexample.ui.MainLayout?>
+<VerticalLayout xmlns:x="http://xml.xdev-software.com/xdevuiml" x:routeLayout="MainLayout" x:name="HomeView" x:route="">
+    <x:constraints width="100%" zpos="0" height="100%" />
+    <FilterComponent x:name="filterComponent">
+        <x:constraints width="100%" height="0%" flex-grow="0.0" />
+    </FilterComponent>
+    <Grid x:themeVariants="LUMO_ROW_STRIPES" x:name="grid">
+        <x:typeArguments>
+            <typeArgument type="Product" />
+        </x:typeArguments>
+        <x:constraints width="100%" height="100%" flex-grow="1.0" />
+        <x:dataProvider dataFetchMethod="findAll" />
+        <x:columns>
+            <column property="productid" sortable="true" />
+            <column property="productname" sortable="true" />
+            <column property="category.categoryname" sortable="true" />
+            <column property="unitprice" sortable="true" autoWidth="true" flexGrow="0" textAlign="END">
+                <renderer type="NumberRenderer" nullRepresentation="">
+                    <numberFormat format="Currency" pattern="" currency="default" locale="default" />
+                </renderer>
+            </column>
+            <column property="unitsinstock" sortable="true" autoWidth="true" flexGrow="0" textAlign="END">
+                <renderer type="NumberRenderer" nullRepresentation="">
+                    <numberFormat format="Integer" currency="default" locale="default" />
+                </renderer>
+            </column>
+            <column property="discontinued" sortable="true" autoWidth="true" flexGrow="0" />
+            <column property="renderer" header="..." autoWidth="true" flexGrow="0" textAlign="CENTER">
+                <renderer type="RenderedComponent" renderedComponent="com.xdev.rcmigrationexample.ui.gencols.GenColProduct" />
+            </column>
+        </x:columns>
+    </Grid>
+</VerticalLayout>
